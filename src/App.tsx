@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
-import { Usuario, Post } from './types/types'
 
+import { Usuario, Post } from './types/types'
+import useUserList from './hooks/useUserList'
 
 // Liste todos os usuários dessa api: https://jsonplaceholder.typicode.com/users/
 // Mostre apenas o nome e o id de cada usuário Exemplo: Maria (1)
@@ -16,16 +17,11 @@ import { Usuario, Post } from './types/types'
 
 function App() {
 
-  const [listaUsuarios, setListaUsuarios] = useState<Usuario[]>([]);
+  const listaUsuarios = useUserList()
 
   const [idSelecionado, setIdSelecionado] = useState<number>()
 
   const [postsDoUsuario, setPostsDoUsuario] = useState<Post[]>([])
-
-  useEffect(() => {
-    axios.get('https://jsonplaceholder.typicode.com/users/')
-    .then(respostaListarUsuarios => setListaUsuarios(respostaListarUsuarios.data))
-  }, [])
 
   useEffect(() => {
     axios.get(`https://jsonplaceholder.typicode.com/users/${idSelecionado}/posts`)
